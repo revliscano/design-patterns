@@ -23,12 +23,14 @@ object ObserverPattern extends App {
   class BadCop extends Policeman {
     override def policemanStatement(speed: Int): Any = println(s"${speed} kmh... pay ${speed * 5}€")
   }
-
-
+  
   class Car(var observers: ListBuffer[Policeman], var speed: Int) {
     def registerObserver(policeman: Policeman): Unit = observers += policeman
+
     def unregisterObserver(policeman: Policeman): Unit = observers -= policeman
+
     def notifyObservers(): Unit = observers.foreach(observer => observer.checkSpeed(speed))
+
     def setSpeed(speed: Int): Unit = {
       this.speed = speed
       notifyObservers()
@@ -56,5 +58,5 @@ object ObserverPattern extends App {
   car.setSpeed(260)
   car.registerObserver(goodCop)
   car.setSpeed(280)
-  
+
 }
