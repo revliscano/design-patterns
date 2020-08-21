@@ -16,43 +16,39 @@ object StrategyPattern extends App {
     override def makeMove: Any = println("selecting move based on computation")
   }
 
-  class ChessEngine() {
-    private val openingStrategy = new OpeningStrategy
-    private val computationStrategy = new ComputationStrategy
-
-    private var strategy: Strategy = openingStrategy
-
+  class ChessEngine(var strategy: Strategy) {
     def makeMove: Any = strategy.makeMove
-
-    def evalOpponentsMove: Any = positionInOpeningsBook match {
-      case true => strategy = openingStrategy
-      case false => strategy = computationStrategy
-    }
-
-    def positionInOpeningsBook: Boolean = Random.nextBoolean
   }
 
-  val chessEngine = new ChessEngine
+  class GameControlModule {
 
-  chessEngine.makeMove
-  chessEngine.evalOpponentsMove
-  chessEngine.makeMove
-  chessEngine.evalOpponentsMove
-  chessEngine.makeMove
-  chessEngine.evalOpponentsMove
-  chessEngine.makeMove
-  chessEngine.evalOpponentsMove
-  chessEngine.makeMove
-  chessEngine.evalOpponentsMove
-  chessEngine.makeMove
-  chessEngine.evalOpponentsMove
-  chessEngine.makeMove
-  chessEngine.evalOpponentsMove
-  chessEngine.makeMove
-  chessEngine.evalOpponentsMove
-  chessEngine.makeMove
-  chessEngine.evalOpponentsMove
-  chessEngine.makeMove
-  chessEngine.evalOpponentsMove
+    private val openingStrategy = new OpeningStrategy
+    private val computationStrategy = new ComputationStrategy
+    private val chessEngine = new ChessEngine(computationStrategy)
+
+    def positionInOpeningsBook: Boolean = Random.nextBoolean
+
+    def evalOpponentsMove: Any = positionInOpeningsBook match {
+      case true => chessEngine.strategy = openingStrategy
+      case false => chessEngine.strategy = computationStrategy
+    }
+
+    def makeMove: Any = chessEngine.makeMove
+  }
+
+  val computerPlayer = new GameControlModule
+  computerPlayer.evalOpponentsMove
+  computerPlayer.makeMove
+  computerPlayer.evalOpponentsMove
+  computerPlayer.makeMove
+  computerPlayer.evalOpponentsMove
+  computerPlayer.makeMove
+  computerPlayer.evalOpponentsMove
+  computerPlayer.makeMove
+  computerPlayer.evalOpponentsMove
+  computerPlayer.makeMove
+  computerPlayer.evalOpponentsMove
+  computerPlayer.makeMove
+  computerPlayer.evalOpponentsMove
 
 }
