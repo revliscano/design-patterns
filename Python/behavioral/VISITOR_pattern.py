@@ -1,17 +1,22 @@
-class LivingBeing:
-    """
-    This class is intended to be an interface.
-    I know there is an ABC module that helps implementing abstrac clases and interfaces
-    in Python, but I'm still not very much familiar with it.
-    """
-    def born(self):
-        raise NotImplementedError('Not implemented')
+from abc import ABC, abstractmethod
 
+class LivingBeing(ABC):
+    """
+    Living being Interface
+    """
+    @abstractmethod
+    def born(self):
+        pass
+
+    @abstractmethod
     def accept(self, visitor):
-        raise NotImplementedError('Not implemented')
+        pass
 
 
 class Person(LivingBeing):
+    """
+    Concrete living being
+    """
     def __init__(self):
         self.number_of_legs = 2
         self.born()
@@ -24,6 +29,9 @@ class Person(LivingBeing):
 
 
 class Dog(LivingBeing):
+    """
+    Concrete living being
+    """
     def __init__(self):
         self.number_of_legs = 4
         self.born()
@@ -37,16 +45,21 @@ class Dog(LivingBeing):
 
 class Visitor:
     """
-    Again, a class meant to be an interface.
+    Visitor Interface
     """
+    @abstractmethod
     def visit_person(self, person):
-        raise NotImplementedError('Not implemented')
+        pass
 
+    @abstractmethod
     def visit_dog(self, dog):
-        raise NotImplementedError('Not implemented')
+        pass
 
 
 class LivingBeingWalkVisitor(Visitor):
+    """
+    Concrete visitor
+    """
     def visit_person(self, person):
         print(f"I'm walking on my {person.number_of_legs} legs")
 
@@ -55,6 +68,9 @@ class LivingBeingWalkVisitor(Visitor):
 
 
 class God:
+    """
+    Client
+    """
     def __init__(self):
         self.beings = [Dog(), Person()]
 
