@@ -2,8 +2,12 @@ from abc import ABC, abstractmethod
 
 class LivingBeing(ABC):
     """
-    Living being Interface
+    Living being Base class
     """
+    def __init__(self, number_of_legs):
+        self.number_of_legs = number_of_legs
+        self.born()
+
     @abstractmethod
     def born(self):
         pass
@@ -18,8 +22,7 @@ class Person(LivingBeing):
     Concrete living being
     """
     def __init__(self):
-        self.number_of_legs = 2
-        self.born()
+        super().__init__(number_of_legs=2)    
 
     def born(self):
         print("I'm a new person!")
@@ -33,8 +36,7 @@ class Dog(LivingBeing):
     Concrete living being
     """
     def __init__(self):
-        self.number_of_legs = 4
-        self.born()
+        super().__init__(number_of_legs=4)
 
     def born(self):
         print("Whoof whoof I'm a new dog")
