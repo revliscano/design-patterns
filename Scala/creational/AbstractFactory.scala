@@ -1,6 +1,6 @@
 import java.util.Calendar
 
-object AbstractFactoryPattern extends App {
+object AbstractFactory extends App {
 
   trait Fridge
 

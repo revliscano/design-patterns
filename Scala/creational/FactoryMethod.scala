@@ -1,6 +1,6 @@
 package creational
 
-object FactoryMethodPattern extends App {
+object FactoryMethod extends App {
 
   trait CarbonatedDrink
 

@@ -2,7 +2,7 @@ package behavioral
 
 import scala.collection.mutable.ListBuffer
 
-object ObserverPattern extends App {
+object Observer extends App {
 
   trait Policeman {
 
