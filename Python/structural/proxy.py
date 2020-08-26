@@ -11,9 +11,7 @@ class VicePresident:
                 else self.president.sign_document(document_topic))
 
     def is_important(self, document_topic):
-        return (True
-                if document_topic in ("missile launch", "meeting with aliens")
-                else False)
+        return document_topic in ("missile launch", "meeting with aliens")
 
 
 class President:
