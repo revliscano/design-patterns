@@ -2,7 +2,7 @@ package behavioral
 
 import scala.util.Random
 
-object StrategyPattern extends App {
+object Strategy extends App {
 
   trait Strategy {
     def makeMove: Any

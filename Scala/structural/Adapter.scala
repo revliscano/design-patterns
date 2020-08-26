@@ -1,6 +1,6 @@
 package structural
 
-object AdapterPattern extends App {
+object Adapter extends App {
 
   class EuropeanPlug {
     def connect: Any = println("European Plug Connected")

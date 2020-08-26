@@ -1,4 +1,4 @@
-object VisitorPattern extends App {
+object Visitor extends App {
 
   trait HouseElement {
     def accept(visitor: Visitor): Unit
