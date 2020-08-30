@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class LivingBeing(ABC):
     """
     Living being Base class
