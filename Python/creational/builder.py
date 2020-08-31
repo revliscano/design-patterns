@@ -1,19 +1,18 @@
+import random
+from abc import ABC, abstractmethod
+
+
 class Game:
     """
     Product
     """
-    def __init__(self):
-        self.number_of_enemies = None
-        self.response_time = None
-        self.lava = False
-
     def start(self):
         print(f'starting game with: {vars(self)}')
 
 
-class GameBuilder:
+class GameModeBuilder(ABC):
     """
-    Builder
+    Builder abstract class
     """
     def __init__(self):
         self.reset()
@@ -21,17 +20,16 @@ class GameBuilder:
     def reset(self):
         self.game = Game()
 
-    def set_enemies(self, number_of_enemies: int):
-        print('setting num. of enemies')
-        self.game.number_of_enemies = number_of_enemies
-    
-    def set_response_time(self, miliseconds: int):
-        print('setting resp. time')
-        self.game.response_time = miliseconds
+    def set_enemies(self, enemy_type):
+        self.game.enemies = [enemy_type for _ in range(random.randint(5, 10))]
 
-    def enable_lava(self):
-        print('enabling lava')
-        self.game.lava = True
+    @abstractmethod
+    def set_floor_texture(self):
+        pass
+
+    @abstractmethod
+    def set_trap(self):
+        pass
 
     def get_game(self) -> Game:
         game = self.game
@@ -39,21 +37,56 @@ class GameBuilder:
         return game
 
 
+class SeaBattleBuilder(GameModeBuilder):
+    """
+    Concrete Builder
+    """
+    def set_enemies(self):
+        print('creating ships')
+        super().set_enemies('ship')
+    
+    def set_floor_texture(self):
+        print('setting water')
+        self.game.floor_texture = 'water'
+
+    def set_trap(self):
+        print('setting environment traps')
+        self.game.trap = random.choice(['waterspout', 'tsunami'])
+
+
+class GroundBattleBuilder(GameModeBuilder):
+    """
+    Concrete Builder
+    """
+    def set_enemies(self):
+        print('creating tanks')
+        super().set_enemies('tank')
+    
+    def set_floor_texture(self):
+        print('setting grass')
+        self.game.floor_texture = random.choice(['grass', 'sand'])
+
+    def set_trap(self):
+        print('setting environment traps')
+        self.game.trap = 'lava'
+
+
 class Director:
     """
     Director
     """
-    def __init__(self, builder: GameBuilder):
-        self.builder = builder
+    @property
+    def builder(self):
+        return self.__builder
 
-    def make_easy_mode(self):
-        self.builder.set_enemies(2)
-        self.builder.set_response_time(1000)
+    @builder.setter
+    def builder(self, builder_):
+        self.__builder = builder_
 
-    def make_hard_mode(self):
-        self.builder.set_enemies(10)
-        self.builder.set_response_time(250)
-        self.builder.enable_lava()
+    def construct(self):
+        self.builder.set_enemies()
+        self.builder.set_floor_texture()
+        self.builder.set_trap()
 
 
 class App:
@@ -61,19 +94,28 @@ class App:
     Client
     """
     def __init__(self):
-        self.game_builder = GameBuilder()
-        self.director = Director(self.game_builder)
+        self.director = Director()
+        self.builders = {
+            'sea': SeaBattleBuilder(),
+            'ground': GroundBattleBuilder()}
 
-    def new_game(self, difficulty: str):
-        if difficulty == 'easy':
-            self.director.make_easy_mode()
-        elif difficulty == 'hard':
-            self.director.make_hard_mode()
-        game = self.game_builder.get_game()
+    def sea_battle_game(self):
+        print('creating a new sea battle game')
+        self.director.builder = self.builders['sea']
+        self.__start_game()
+
+    def ground_battle_game(self):
+        print('creating a new ground battle game')
+        self.director.builder = self.builders['ground']
+        self.__start_game()
+
+    def __start_game(self):
+        self.director.construct()
+        game = self.director.builder.get_game()
         game.start()
 
 
 # USAGE
 app = App()
-app.new_game('easy')
-app.new_game('hard')
+app.sea_battle_game()
+app.ground_battle_game()
