@@ -31,7 +31,7 @@ class GameModeBuilder(ABC):
     def set_trap(self):
         pass
 
-    def get_game(self) -> Game:
+    def get_game(self):
         game = self.game
         self.reset()
         return game
