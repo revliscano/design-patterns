@@ -44,7 +44,7 @@ object ChainOfResponsibility extends App {
 
   class RootCertificate(override val validityDate: Date)
     extends Certificate(None, validityDate) {
-    override def isTrusted: Boolean = true
+    override def isTrusted: Boolean = false
   }
 
   val date = Calendar.getInstance()
