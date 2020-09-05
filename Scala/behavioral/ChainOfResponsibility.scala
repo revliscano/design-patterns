@@ -51,14 +51,14 @@ object ChainOfResponsibility extends App {
 
   val date = Calendar.getInstance()
   date.add(Calendar.HOUR, 10)
-  private val certificateValidityDate: Date = date.getTime
+  val certificateValidityDate: Date = date.getTime
 
-  private val rootCertificate = new RootCertificate(certificateValidityDate)
-  private val intermediateCertificate1st = new IntermediateCertificate(Some(rootCertificate), certificateValidityDate)
-  private val intermediateCertificate2nd = new IntermediateCertificate(Some(intermediateCertificate1st), certificateValidityDate)
-  private val intermediateCertificate3rd = new IntermediateCertificate(Some(intermediateCertificate2nd), certificateValidityDate)
-  private val endEntityCertificate = new EndEntityCertificate(Some(intermediateCertificate3rd), certificateValidityDate)
-  val certificate = endEntityCertificate
-  println(certificate.verify)
+  val rootCertificate = new RootCertificate(certificateValidityDate)
+  val intermediateCertificate1st = new IntermediateCertificate(Some(rootCertificate), certificateValidityDate)
+  val intermediateCertificate2nd = new IntermediateCertificate(Some(intermediateCertificate1st), certificateValidityDate)
+  val intermediateCertificate3rd = new IntermediateCertificate(Some(intermediateCertificate2nd), certificateValidityDate)
+  val endEntityCertificate = new EndEntityCertificate(Some(intermediateCertificate3rd), certificateValidityDate)
+  
+  println(endEntityCertificate.verify)
 
 }
