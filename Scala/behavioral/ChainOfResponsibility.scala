@@ -19,7 +19,8 @@ object ChainOfResponsibility extends App {
         false
     }
 
-    def verify: Boolean =
+    def verify: Boolean = {
+      println(this.getClass)
       if (!isValid) {
         println("Certificate is not valid because validity date is not in the future")
         false
@@ -30,6 +31,7 @@ object ChainOfResponsibility extends App {
       else {
         validateNext(Try(nextCertificate.get))
       }
+    }
   }
 
   class EndEntityCertificate(override val nextCertificate: Option[Certificate], override val validityDate: Date)
@@ -44,14 +46,19 @@ object ChainOfResponsibility extends App {
 
   class RootCertificate(override val validityDate: Date)
     extends Certificate(None, validityDate) {
-    override def isTrusted: Boolean = false
+    override def isTrusted: Boolean = true
   }
 
   val date = Calendar.getInstance()
   date.add(Calendar.HOUR, 10)
-  val certificateDate = date.getTime()
+  private val certificateValidityDate: Date = date.getTime
 
-  val certificate = new EndEntityCertificate(Some(new IntermediateCertificate(Some(new RootCertificate(certificateDate)), certificateDate)), certificateDate)
-  certificate.verify
+  private val rootCertificate = new RootCertificate(certificateValidityDate)
+  private val intermediateCertificate1st = new IntermediateCertificate(Some(rootCertificate), certificateValidityDate)
+  private val intermediateCertificate2nd = new IntermediateCertificate(Some(intermediateCertificate1st), certificateValidityDate)
+  private val intermediateCertificate3rd = new IntermediateCertificate(Some(intermediateCertificate2nd), certificateValidityDate)
+  private val endEntityCertificate = new EndEntityCertificate(Some(intermediateCertificate3rd), certificateValidityDate)
+  val certificate = endEntityCertificate
+  println(certificate.verify)
 
 }
