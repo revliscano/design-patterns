@@ -17,7 +17,7 @@ class EmailSubscriber(Subscriber):
     """
     def __init__(self, email_direction: str):
         self.email_direction = email_direction
-    
+
     def update(self):
         self.send_email()
 
@@ -31,7 +31,7 @@ class TwitterSubscriber(Subscriber):
     """
     def __init__(self, username: str):
         self.username = username
-    
+
     def update(self):
         self.run_bot()
 
@@ -44,7 +44,7 @@ class Article:
     Articles to be published in a blog
     """
     def publish(self):
-        print(f'The article has been published')
+        print('The article has been published')
 
 
 class Blog:
