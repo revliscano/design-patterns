@@ -5,7 +5,7 @@ import scala.util.Random
 object Bridge extends App {
 
   trait RightBank {
-    def explode: Any = println("Triggering explosion mechanism of the Bridge")
+    def explode: Any
   }
 
   abstract class LeftBank(var rightBank: RightBank) {
@@ -13,11 +13,11 @@ object Bridge extends App {
   }
 
   class RightBankWhenWar extends RightBank {
-    override def explode: Any = println("Triggering explosion of the Bridge")
+    def explode: Any = println("Triggering explosion of the Bridge")
   }
 
   class RightBankWhenPeace extends RightBank {
-    override def explode: Any = println("There is no real military conflict. No explosion during security training.")
+    def explode: Any = println("There is no real military conflict. No explosion during security training.")
   }
 
   class LeftBankInWarAndPeace(rightBank: RightBank) extends LeftBank(rightBank) {
