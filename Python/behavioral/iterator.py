@@ -18,9 +18,9 @@ class RepetitiveIterator(Iterator):
             return self._repeat_or_finish()
 
     def _get_next(self):
-        object_ = self.iterable[self.position]
+        element = self.iterable[self.position]
         self.position += 1
-        return object_
+        return element
 
     def _repeat_or_finish(self):
         if self.loops < self.repetitions:
